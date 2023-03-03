@@ -1,0 +1,7 @@
+helm show values jenkins/jenkins
+
+Para configurar o serviço como um LoadBalancer, você cria um arquivo chamado values.yamlcom o seguinte conteúdo:
+controller:
+  serviceType: LoadBalancer
+  
+helm upgrade --install -f values.yaml myjenkins jenkins/jenkins

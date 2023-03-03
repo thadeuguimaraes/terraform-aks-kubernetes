@@ -1,5 +1,5 @@
 variable "resource_group_name" {
-  default = "rg_k8s_matrix"
+  default = "thadeuiguimaraes"
 }
 
 variable "location" {
@@ -11,7 +11,7 @@ variable "cluster_name" {
 }
 
 variable "default_node_pool_count" {
-  default = 2
+  default = 3
 }
 
 variable "default_node_pool_size" {
