@@ -6,7 +6,7 @@ O código utiliza três recursos do Azure: azurerm_resource_group, azurerm_stora
 
 O código especifica o nome e a localização do grupo de recursos, da conta de armazenamento e do contêiner de armazenamento. Ele também define tags comuns para todos os recursos criados.
 
-# Introdução a estrategia HPA
+# Introdução á estrategia HPA
 
 Este é um código YAML para criar um ambiente Kubernetes com dois serviços: um banco de dados MongoDB e uma API RESTful que consome esse banco de dados. Além disso, o código inclui duas estratégias de escalonamento automático de pod para lidar com as demandas de tráfego: mongodb-hpa e api-hpa.
 
