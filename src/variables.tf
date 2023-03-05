@@ -1,13 +1,9 @@
-variable "resource_group_name" {
-  default = "thadeuiguimaraes"
-}
-
 variable "location" {
   default = "Brazil South"
 }
 
-variable "cluster_name" {
-  default = "k8s_matrix"
+variable "k8s_matrix" {
+  default = "reload-cluster"
 }
 
 variable "default_node_pool_count" {
@@ -16,4 +12,12 @@ variable "default_node_pool_count" {
 
 variable "default_node_pool_size" {
   default = "Standard_D2_v2"
+}
+
+variable "account_tier" {
+  default = "Standard"
+}
+
+variable "account_replication_type" {
+  default = "LRS"
 }

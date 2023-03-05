@@ -24,29 +24,72 @@ O segundo bloco de código cria um deployment para a API e um serviço para expo
 
 Os dois últimos blocos de código criam duas estratégias de escalonamento automático de pod para lidar com as demandas de tráfego: mongodb-hpa e api-hpa. Ambas são estratégias HorizontalPodAutoscaler e têm como alvo os deployments mongodb e api, respectivamente. Cada uma delas tem um mínimo de 1 pod, um máximo de 5 pods e uma métrica de utilização de CPU média alvo de 50%.
 
-# Introdução a instalação do jenkins num namespace do Cluster AKS
+# Introdução a instalação do jenkins e Helm num namespace do Cluster AKS
 
-1.Adicione o repositório do Jenkins ao Helm:
-helm repo add jenkins https://charts.jenkins.io
-helm repo update
-2.Instale o Jenkins no namespace desejado:
-helm upgrade --install myjenkins jenkins/jenkins --namespace <namespace>
-3.Obtenha a senha do usuário 'admin' executando:
-kubectl exec --namespace <namespace> -it svc/myjenkins -c jenkins -- /bin/cat /run/secrets/chart-admin-password && echo
-4.Obtenha a URL do Jenkins executando os seguintes comandos no mesmo shell:
-echo http://127.0.0.1:8080
-5.Faça login com a senha do passo 3 e o nome de usuário 'admin'.
-6.Configure o realm de segurança e a estratégia de autorização.
-7.Use a Configuração do Jenkins como código, especificando configScripts no arquivo values.yaml.
-8.Use a Configuração do Jenkins como código, especificando configScripts no arquivo values.yaml.
-Documentação: http:///configuration-as-code
-Exemplos: https://github.com/jenkinsci/configuration-as-code-plugin/tree/master/demos
-9.Em seguida, atualize o release do Helm usando os valores definidos em values.yaml com o comando:
-helm upgrade --install -f values.yaml myjenkins jenkins/jenkins --namespace <namespace>
-10.Acesse o Jenkins através do IP público gerado pelo serviço LoadBalancer:
-kubectl get svc --namespace <namespace> myjenkins --template "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}"
-Faça login novamente com as informações do passo 5.
-Para mais informações sobre a execução do Jenkins no Kubernetes, visite:
+1. Adicione o repositório do Jenkins ao Helm:
+   helm repo add jenkins https://charts.jenkins.io
+   helm repo update
+2. Instale o Jenkins no namespace desejado:
+   helm upgrade --install myjenkins jenkins/jenkins --namespace <namespace>
+3. Obtenha a senha do usuário 'admin' executando:
+   kubectl exec --namespace <namespace> -it svc/myjenkins -c jenkins -- /bin/cat /run/secrets/chart-admin-password && echo
+4. Obtenha a URL do Jenkins executando os seguintes comandos no mesmo shell:
+   echo http://127.0.0.1:8080
+5. Faça login com a senha do passo 3 e o nome de usuário 'admin'.
+6. Configure o realm de segurança e a estratégia de autorização.
+7. Use a Configuração do Jenkins como código, especificando configScripts no arquivo values.yaml.
+8. Use a Configuração do Jenkins como código, especificando configScripts no arquivo values.yaml.
+   Documentação: http:///configuration-as-code
+   Exemplos: https://github.com/jenkinsci/configuration-as-code-plugin/tree/master/demos
+9. Em seguida, atualize o release do Helm usando os valores definidos em values.yaml com o comando:
+   helm upgrade --install -f values.yaml myjenkins jenkins/jenkins --namespace <namespace>
+10. Acesse o Jenkins através do IP público gerado pelo serviço LoadBalancer:
+    kubectl get svc --namespace <namespace> myjenkins --template "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}"
+    Faça login novamente com as informações do passo 5.
+    Para mais informações sobre a execução do Jenkins no Kubernetes, visite:
+    https://cloud.google.com/solutions/jenkins-on-container-engine
+    Para mais informações sobre a Configuração do Jenkins como código, visite:
+    https://jenkins.io/projects/jcasc/
+
+# Expondo Jenkins por meio de um endereço IP público
+
+<pre><code class="language-yaml">helm show values jenkins/jenkins
+</code></pre>
+
+<pre><code class="language-yaml">controller:
+  serviceType: LoadBalancer
+</code></pre>
+
+<pre><code class="language-bash">helm upgrade --install -f values.yaml myjenkins jenkins/jenkins
+</code></pre>
+<p>The output is changed subtly with the addition of new instructions to return the service's public IP:</p>
+
+<pre><code class="language-bash">$ helm upgrade --install -f values.yaml myjenkins jenkins/jenkins
+Release &quot;myjenkins&quot; has been upgraded. Happy Helming!
+NAME: myjenkins
+LAST DEPLOYED: Tue Oct 19 08:45:23 2021
+NAMESPACE: default
+STATUS: deployed
+REVISION: 4
+NOTES:
+1. Get your 'admin' user password by running:
+  kubectl exec --namespace default -it svc/myjenkins -c jenkins -- /bin/cat /run/secrets/chart-admin-password &amp;&amp; echo
+2. Get the Jenkins URL to visit by running these commands in the same shell:
+  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+        You can watch the status of by running 'kubectl get svc --namespace default -w myjenkins'
+  export SERVICE_IP=$(kubectl get svc --namespace default myjenkins --template &quot;{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}&quot;)
+  echo http://$SERVICE_IP:8080/login
+
+3. Login with the password from step 1 and the username: admin
+4. Configure security realm and authorization strategy
+5. Use Jenkins Configuration as Code by specifying configScripts in your values.yaml file, see documentation: http:///configuration-as-code and examples: https://github.com/jenkinsci/configuration-as-code-plugin/tree/master/demos
+
+For more information on running Jenkins on Kubernetes, visit:
 https://cloud.google.com/solutions/jenkins-on-container-engine
-Para mais informações sobre a Configuração do Jenkins como código, visite:
+
+For more information about Jenkins Configuration as Code, visit:
 https://jenkins.io/projects/jcasc/
+
+
+NOTE: Consider using a custom image with pre-installed plugins
+</code></pre>

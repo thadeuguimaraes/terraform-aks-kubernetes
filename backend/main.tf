@@ -13,20 +13,10 @@ terraform {
     resource_group_name  = "remote-state"
     storage_account_name = "thadeuguimaraes"
     container_name       = "remote-state"
-    key                  = "azure-vm/terraform.tfstate"
+    key                  = "azure-vnet/terraform.tfstate"
   }
 }
 
 provider "azurerm" {
   features {}
-}
-
-data "terraform_remote_state" "vnet" {
-  backend = "azurerm"
-  config = {
-    resource_group_name  = "remote-state"
-    storage_account_name = "thadeuguimaraes"
-    container_name       = "remote-state"
-    key                  = "azure-vnet/terraform.tfstate"
-  }
 }
