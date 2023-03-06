@@ -8,9 +8,13 @@ O código especifica o nome e a localização do grupo de recursos, da conta de 
 
 # Introdução á estrategia HPA
 
-Este é um código YAML para criar um ambiente Kubernetes com dois serviços: um banco de dados MongoDB e uma API RESTful que consome esse banco de dados. Além disso, o código inclui duas estratégias de escalonamento automático de pod para lidar com as demandas de tráfego: mongodb-hpa e api-hpa.
+Este é um arquivo de configuração do Kubernetes que contém dois objetos HorizontalPodAutoscaler, que utilizam a API version autoscaling/v2.
 
-Em seguida, você pode explicar o que cada parte do código faz, seguindo a ordem em que as informações aparecem. Por exemplo:
+O primeiro HorizontalPodAutoscaler, chamado `mongodb-hpa`, é utilizado para fazer o autoscaling do deployment `mongodb`. Ele está configurado para manter um mínimo de 1 replica e um máximo de 5 replicas. O autoscaler irá escalar para cima ou para baixo baseado na utilização média de CPU, com uma utilização alvo de 50%.
+
+O segundo HorizontalPodAutoscaler, chamado `api-hpa`, é utilizado para fazer o autoscaling do deployment api. Ele também está configurado para manter um mínimo de 1 replica e um máximo de 5 replicas. Assim como o primeiro autoscaler, ele escala baseado na utilização média de CPU, com uma utilização alvo de 50%.
+
+Para aplicar este arquivo de configuração ao seu cluster do Kubernetes, você pode utilizar o comando `kubectl apply -f <file>.yaml`:
 
 ## MongoDB Deployment e Service
 
@@ -24,72 +28,35 @@ O segundo bloco de código cria um deployment para a API e um serviço para expo
 
 Os dois últimos blocos de código criam duas estratégias de escalonamento automático de pod para lidar com as demandas de tráfego: mongodb-hpa e api-hpa. Ambas são estratégias HorizontalPodAutoscaler e têm como alvo os deployments mongodb e api, respectivamente. Cada uma delas tem um mínimo de 1 pod, um máximo de 5 pods e uma métrica de utilização de CPU média alvo de 50%.
 
-# Introdução a instalação do jenkins e Helm num namespace do Cluster AKS
+# Introdução à Pipeline para construção, push e deploy de uma imagem Docker no Kubernetes
 
-1. Adicione o repositório do Jenkins ao Helm:
-   helm repo add jenkins https://charts.jenkins.io
-   helm repo update
-2. Instale o Jenkins no namespace desejado:
-   helm upgrade --install myjenkins jenkins/jenkins --namespace <namespace>
-3. Obtenha a senha do usuário 'admin' executando:
-   kubectl exec --namespace <namespace> -it svc/myjenkins -c jenkins -- /bin/cat /run/secrets/chart-admin-password && echo
-4. Obtenha a URL do Jenkins executando os seguintes comandos no mesmo shell:
-   echo http://127.0.0.1:8080
-5. Faça login com a senha do passo 3 e o nome de usuário 'admin'.
-6. Configure o realm de segurança e a estratégia de autorização.
-7. Use a Configuração do Jenkins como código, especificando configScripts no arquivo values.yaml.
-8. Use a Configuração do Jenkins como código, especificando configScripts no arquivo values.yaml.
-   Documentação: http:///configuration-as-code
-   Exemplos: https://github.com/jenkinsci/configuration-as-code-plugin/tree/master/demos
-9. Em seguida, atualize o release do Helm usando os valores definidos em values.yaml com o comando:
-   helm upgrade --install -f values.yaml myjenkins jenkins/jenkins --namespace <namespace>
-10. Acesse o Jenkins através do IP público gerado pelo serviço LoadBalancer:
-    kubectl get svc --namespace <namespace> myjenkins --template "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}"
-    Faça login novamente com as informações do passo 5.
-    Para mais informações sobre a execução do Jenkins no Kubernetes, visite:
-    https://cloud.google.com/solutions/jenkins-on-container-engine
-    Para mais informações sobre a Configuração do Jenkins como código, visite:
-    https://jenkins.io/projects/jcasc/
+Este pipeline é usado para construir uma imagem Docker, fazer o push para o Docker Hub e, em seguida, implantar a imagem no Kubernetes. É composto por três estágios: Build Image, Push Image e Deploy Kubernetes.
 
-# Expondo Jenkins por meio de um endereço IP público
+## Build Image
 
-<pre><code class="language-yaml">helm show values jenkins/jenkins
-</code></pre>
+Este estágio constrói a imagem Docker usando o Dockerfile localizado em `./src/Dockerfile`. A imagem é nomeada como `devopsguimaraes/api-produto:${env.BUILD_ID}`, onde `${env.BUILD_ID}` é a ID de compilação exclusiva gerada pelo Jenkins.
 
-<pre><code class="language-yaml">controller:
-  serviceType: LoadBalancer
-</code></pre>
+## Push Image
 
-<pre><code class="language-bash">helm upgrade --install -f values.yaml myjenkins jenkins/jenkins
-</code></pre>
-<p>The output is changed subtly with the addition of new instructions to return the service's public IP:</p>
+Este estágio faz o push da imagem Docker recém-construída para o Docker Hub, usando as credenciais armazenadas em `dockerhub`. A imagem é push para duas tags: latest e `${env.BUILD_ID}`.
 
-<pre><code class="language-bash">$ helm upgrade --install -f values.yaml myjenkins jenkins/jenkins
-Release &quot;myjenkins&quot; has been upgraded. Happy Helming!
-NAME: myjenkins
-LAST DEPLOYED: Tue Oct 19 08:45:23 2021
-NAMESPACE: default
-STATUS: deployed
-REVISION: 4
-NOTES:
-1. Get your 'admin' user password by running:
-  kubectl exec --namespace default -it svc/myjenkins -c jenkins -- /bin/cat /run/secrets/chart-admin-password &amp;&amp; echo
-2. Get the Jenkins URL to visit by running these commands in the same shell:
-  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
-        You can watch the status of by running 'kubectl get svc --namespace default -w myjenkins'
-  export SERVICE_IP=$(kubectl get svc --namespace default myjenkins --template &quot;{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}&quot;)
-  echo http://$SERVICE_IP:8080/login
+## Deploy Kubernetes
 
-3. Login with the password from step 1 and the username: admin
-4. Configure security realm and authorization strategy
-5. Use Jenkins Configuration as Code by specifying configScripts in your values.yaml file, see documentation: http:///configuration-as-code and examples: https://github.com/jenkinsci/configuration-as-code-plugin/tree/master/demos
+Este estágio é responsável por implantar a imagem Docker no Kubernetes. Ele faz o download do arquivo `./k8s/deployment.yaml` e substitui a tag`{{tag}}` pelo valor de `${env.BUILD_ID}`. Em seguida, aplica as alterações no Kubernetes usando o comando `kubectl apply -f ./k8s/deployment`.yaml.
 
-For more information on running Jenkins on Kubernetes, visit:
-https://cloud.google.com/solutions/jenkins-on-container-engine
+## Credenciais
 
-For more information about Jenkins Configuration as Code, visit:
-https://jenkins.io/projects/jcasc/
+Este pipeline requer as seguintes credenciais armazenadas no Jenkins:
 
+- `dockerhub`: credenciais para fazer o push da imagem Docker para o Docker Hub
+- `kubeconfig`: arquivo de configuração do Kubernetes para implantar as alterações no cluster.
 
-NOTE: Consider using a custom image with pre-installed plugins
-</code></pre>
+## Pré-requisitos
+
+- Jenkins instalado e configurado para uso com o Kubernetes.
+- Cluster Kubernetes configurado e acessível pelo Jenkins.
+
+# Como usar
+
+1.Crie um novo pipeline no Jenkins e cole o código do pipeline.
+2.Certifique-se de ter as credenciais dockerhub e kubeconfig armazenadas no Jenkins. 3. Inicie a construção do pipeline e aguarde a conclusão da compilação, push e implantação da imagem Docker no Kubernetes.
