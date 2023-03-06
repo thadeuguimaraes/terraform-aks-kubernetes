@@ -5,12 +5,12 @@ pipeline {
         stage ('Build Image') {
             steps {
                 script {
-                    dockerapp = docker.build("devopsguimaraes/api-produto:${env.BUILD_ID}", '-f ./src/Dockerfile ./src')
-                }
+                    dockerapp = docker.build("fabricioveronez/api-produto:${env.BUILD_ID}", '-f ./src/Dockerfile ./src') 
+                }                
             }
         }
 
-        stage ('Push Image') { 
+        stage ('Push Image') {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
@@ -22,7 +22,7 @@ pipeline {
         }
 
         stage ('Deploy Kubernetes') {
-            envuroment {
+            environment {
                 tag_version = "${env.BUILD_ID}"
             }
             steps {
