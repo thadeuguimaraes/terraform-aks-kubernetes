@@ -54,7 +54,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: devopsguimaraes/api-produto:latest
+          image: devopsguimaraes/api-produto:{{tag}}
           ports:
             - containerPort: 8080
           env:
