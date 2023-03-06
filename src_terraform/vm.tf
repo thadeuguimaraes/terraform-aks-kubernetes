@@ -39,12 +39,12 @@ resource "azurerm_linux_virtual_machine" "vm" {
   name                  = "vm-terraform"
   resource_group_name   = azurerm_resource_group.resource_group.name
   location              = var.location
-  size                  = "Standard_D2s_v3"
-  admin_username        = "terraform"
+  size                  = var.vm
+  admin_username        = var.admin_username
   network_interface_ids = [azurerm_network_interface.network_interface.id, ]
 
   admin_ssh_key {
-    username   = "terraform"
+    username   = var.admin_username
     public_key = file("./azure-key.pub")
   }
 
