@@ -1,4 +1,4 @@
-# Introdução ao src_terraform par provisionar o Cluster Kubernets na Azure e a criação de uma VM Ubuntu-Linux
+# Introdução ao src_terraform para provisionar o Cluster Kubernets na Azure e a criação de uma VM Ubuntu-Linux
 
 Este é um código Terraform que provisiona um cluster Kubernetes em uma conta do Azure, que pode ser usado para implantar aplicativos em contêiner.
 
