@@ -1,4 +1,17 @@
-# Introdução ao Backend Storageaccount terraform para armazenamento o tf.state
+# Introdução ao src_terraform par provisionar o Cluster Kubernets na Azure e a criação de uma VM Ubuntu-Linux
+
+Este é um código Terraform que provisiona um cluster Kubernetes em uma conta do Azure, que pode ser usado para implantar aplicativos em contêiner.
+
+1. Configura a versão do Terraform e os provedores necessários.
+2. Configura o backend do Azure para armazenar o estado remoto do Terraform.
+3. Cria um recurso de cluster Kubernetes no Azure com uma pool de nós padrão.
+4. Cria uma interface de rede para o cluster.
+5. Configura o acesso SSH para a VM.
+6. Cria um disco do sistema operacional para a VM.
+7. Configura os recursos de rede, como um endereço IP público, associação de segurança do grupo de rede e sub-rede do Virtual Network.
+8. Define algumas variáveis e tags comuns para o código.
+
+# Introdução ao Backend_Terraform para provisionar Storageaccount terraform para armazenamento o tf.state
 
 Esse código é responsável por criar um recurso de armazenamento no Microsoft Azure para armazenar o arquivo tf.state. Isso é importante para que você possa compartilhar o estado do seu projeto com outras pessoas e manter o controle de versão adequado.
 
@@ -6,7 +19,7 @@ O código utiliza três recursos do Azure: azurerm_resource_group, azurerm_stora
 
 O código especifica o nome e a localização do grupo de recursos, da conta de armazenamento e do contêiner de armazenamento. Ele também define tags comuns para todos os recursos criados.
 
-# Introdução á estrategia HPA
+# Introdução ao codigo para provisionar á estrategia HPA
 
 Este é um arquivo de configuração do Kubernetes que contém dois objetos HorizontalPodAutoscaler, que utilizam a API version autoscaling/v2.
 
@@ -28,7 +41,7 @@ O segundo bloco de código cria um deployment para a API e um serviço para expo
 
 Os dois últimos blocos de código criam duas estratégias de escalonamento automático de pod para lidar com as demandas de tráfego: mongodb-hpa e api-hpa. Ambas são estratégias HorizontalPodAutoscaler e têm como alvo os deployments mongodb e api, respectivamente. Cada uma delas tem um mínimo de 1 pod, um máximo de 5 pods e uma métrica de utilização de CPU média alvo de 50%.
 
-# Introdução à Pipeline para construção, push e deploy de uma imagem Docker no Kubernetes
+# Introdução ao codigo para provisinar á Pipeline para construção,do push e deploy de uma imagem Docker no Kubernetes
 
 Este pipeline é usado para construir uma imagem Docker, fazer o push para o Docker Hub e, em seguida, implantar a imagem no Kubernetes. É composto por três estágios: Build Image, Push Image e Deploy Kubernetes.
 

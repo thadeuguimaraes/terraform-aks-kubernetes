@@ -41,7 +41,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   location              = var.location
   size                  = "Standard_D2s_v3"
   admin_username        = "terraform"
-  network_interface_ids = [azurerm_network_interface.network_interface.id,]
+  network_interface_ids = [azurerm_network_interface.network_interface.id, ]
 
   admin_ssh_key {
     username   = "terraform"
