@@ -4,7 +4,7 @@
 sudo apt update
 
 # instalar o Java Runtime Environment (JRE) 11
-sudo apt install openjdk-11-jre
+sudo apt install -y openjdk-11-jdk
 
 # obter a chave de segurança do Jenkins e adicioná-la ao keyring
 curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
@@ -16,6 +16,8 @@ echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins
 sudo apt-get update
 
 # instalar o Jenkins
-sudo apt-get install jenkins
+sudo apt-get install -y jenkins 
 
 # permissões para executar o arquivo chmod +x
+
+cat /var/lib/jenkins/secrets/initialAdminPassword

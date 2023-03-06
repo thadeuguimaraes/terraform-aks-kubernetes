@@ -1,5 +1,5 @@
 variable "location" {
-  default = "East US"
+  default = "Brazil South"
 }
 
 variable "k8s_matrix" {
@@ -14,10 +14,6 @@ variable "default_node_pool_size" {
   default = "Standard_D2_v2"
 }
 
-variable "vm" {
-  default = "Standard_D2_v2"
-}
-
 variable "account_tier" {
   default = "Standard"
 }
@@ -25,6 +21,3 @@ variable "account_tier" {
 variable "account_replication_type" {
   default = "LRS"
 }
- variable "admin_username" {
-    default = "terraform"
- }

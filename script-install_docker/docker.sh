@@ -7,7 +7,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # Baixar e instalar o Docker
-curl -fsSL https://get.docker.com | bash
+curl -fsSL https://get.docker.com | bash --yes
 
 # Adicionar o usuário atual ao grupo docker para evitar o uso constante de sudo
 usermod -aG docker jenkins
