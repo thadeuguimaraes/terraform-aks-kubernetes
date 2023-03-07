@@ -19,6 +19,16 @@ O código utiliza três recursos do Azure: azurerm_resource_group, azurerm_stora
 
 O código especifica o nome e a localização do grupo de recursos, da conta de armazenamento e do contêiner de armazenamento. Ele também define tags comuns para todos os recursos criados.
 
+# Introdução a pasta Script-install_apps para fazer a instalaçãoe configuração do Java Jenkins,Docker e o Kubectl
+
+Para criar a pipeline CI/CD para fazer o deploy da API no cluster Kubernetes da Azure, primeiro faça o acesso SSH na VM. Em seguida, crie uma pasta com o nome de sua preferência ou use o nome da pasta contida no repositório. Depois, crie um arquivo com a extensão .sh utilizando um editor de texto de sua preferência. Cole o código necessário, salve o arquivo e execute-o na VM Linux. Esse arquivo será responsável pela instalação e configuração dos programas necessários para criar a pipeline. Com a pipeline configurada, você poderá automatizar o processo de deploy da sua aplicação no cluster Kubernetes da Azure de forma rápida e eficiente.
+
+Além disso, se você deseja introduzir o código para provisionar a estratégia HPA, pode fazê-lo em um novo parágrafo ou tópico. Por exemplo:
+
+Para provisionar a estratégia HPA no cluster Kubernetes da Azure, é necessário definir um arquivo de configuração que especifique os recursos a serem monitorados e as regras de dimensionamento automático. Em seguida, execute o comando "kubectl apply" para aplicar a configuração ao cluster. Com a estratégia HPA em funcionamento, o Kubernetes poderá ajustar automaticamente a escala da sua aplicação com base na carga de trabalho, garantindo que ela tenha o desempenho ideal em todos os momentos.
+
+O Jenkins será configurado para ser acessado na porta 80 seguido do IP publico da VM `http://<ip>:8080`
+
 # Introdução ao codigo para provisionar á estrategia HPA
 
 Este é um arquivo de configuração do Kubernetes que contém dois objetos HorizontalPodAutoscaler, que utilizam a API version autoscaling/v2.
@@ -63,6 +73,8 @@ Este pipeline requer as seguintes credenciais armazenadas no Jenkins:
 
 - `dockerhub`: credenciais para fazer o push da imagem Docker para o Docker Hub
 - `kubeconfig`: arquivo de configuração do Kubernetes para implantar as alterações no cluster.
+
+A API será configurada para ser acessada atarves do IP publico da VM seguido do `http://<ip>/api-docs/`
 
 ## Pré-requisitos
 
