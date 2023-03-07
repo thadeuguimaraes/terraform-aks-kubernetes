@@ -15,7 +15,7 @@ pipeline {
                 script {
                     docker.whithRegistry('https://registry.hub.docker.com', 'dockerhub') {
                         dockerapp.push('latest')
-                        docker.push('${env.BUILD_ID}')
+                        dockerapp.push("${env.BUILD_ID}")
                     }
                 }
             }
