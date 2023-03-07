@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage ('Build Image') {
             steps {
-                scripts {
+                script {
                     dockerapp = docker.build("devopsguimaraes/api-produto", '-f ./src/Dockerfile ./src')
                 }
             }
