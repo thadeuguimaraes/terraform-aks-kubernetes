@@ -9,5 +9,16 @@ pipeline {
                 }
             }
         }
+
+        stage ('Push Image') {
+            steps {
+                script {
+                    docker.whithRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                        dockerapp.push('latest')
+                        docker.push('${env.BUILD_ID}')
+                    }
+                }
+            }
+        }
     }
 }
