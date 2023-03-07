@@ -31,7 +31,7 @@ sudo curl -fsSL https://get.docker.com | bash
 # Adicionar o usuário atual ao grupo docker para evitar o uso constante de sudo
 usermod -aG docker jenkins
 
-# Reiniciar o serviço do Docker
+# Reiniciar o serviço do Jenkins
 systemctl restart jenkins
 
 # Instala os pacotes necessários para o Kubernetes
