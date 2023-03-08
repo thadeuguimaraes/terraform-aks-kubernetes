@@ -81,8 +81,8 @@ A API será configurada para ser acessada atarves do IP publico da VM seguido do
 - Ter uma VM no Azure
 - Jenkins instalado e configurado para uso com o Kubernetes.
 - Cluster Kubernetes configurado e acessível pelo Jenkins.
-- Ter instalado no Jenkins os plugins necessários para montar a pipeline e ter configurado o kubectl para o Kubernetes (Docker, Docker pipeline, Kubernetes CLI).
-- Adicionar as credenciais do Docker Hub e o arquivo kubeconfig para enviar a imagem para o Docker Hub e ter acesso ao cluster através do arquivo kubeconfig.
+- Ter instalado no Jenkins os plugins necessários para montar a pipeline e ter configurado o kubectl para o Kubernetes `Docker, Docker pipeline, Kubernetes CLI`.
+- Adicionar as credenciais do Docker Hub e o arquivo `kubeconfig` para enviar a imagem para o Docker Hub e ter acesso ao cluster no Azure.
 
 # Como usar
 
