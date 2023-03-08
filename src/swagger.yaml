@@ -1,9 +1,9 @@
 ---
 swagger: "2.0"
 info:
-  description: "API de Cadastro de Produtos - Versão 1.0"
+  description: "API de Cadastro de Produtos - Versão 3.0"
   version: "3.0.0"
-  title: "Cadastro de Produtos - Versão 1.0"
+  title: "Cadastro de Produtos - Versão 3.0"
   contact:
     email: "fabricio@veronez.dev"
 paths:
@@ -14,19 +14,19 @@ paths:
         "200":
           description: "Status pronto"
         "500":
-          description: "Status não pronto"  
+          description: "Status não pronto"
   /unreadfor/{seconds}:
     put:
       description: "Atualização de um produto"
       parameters:
-      - name: "seconds"
-        in: "path"
-        description: "Número de segundos como não pronto"
-        required: true
-        type: "string"
+        - name: "seconds"
+          in: "path"
+          description: "Número de segundos como não pronto"
+          required: true
+          type: "string"
       responses:
         "200":
-          description: "OK"   
+          description: "OK"
   /health:
     get:
       description: "Verificação se a aplicação está saudável"
@@ -34,51 +34,51 @@ paths:
         "200":
           description: "Status saudável"
         "500":
-          description: "Status não saudável"    
+          description: "Status não saudável"
   /unhealth:
     put:
       description: "Faz com que a aplicação pare de responder"
       responses:
         "200":
-          description: "Ok" 
-  /stress/{elemento}/tempostress/{tempoStress}/intervalo/{intervalo}/ciclos/{ciclos}:
-    put:
+          description: "Ok"
+  ? /stress/{elemento}/tempostress/{tempoStress}/intervalo/{intervalo}/ciclos/{ciclos}
+  : put:
       description: "Faz a aplicação consumir mais recurso"
       parameters:
-      - name: "elemento"
-        in: "path"
-        description: "Elemento pra estressar. Pode ser memory ou cpu"
-        required: true
-        type: "string"
-      - name: "tempoStress"
-        in: "path"
-        description: "Tempo em segundos pra estressar o elemento"
-        required: true
-        type: "string"
-      - name: "intervalo"
-        in: "path"
-        description: "Intervalo de tempo entre um stress e outro"
-        required: true
-        type: "string"
-      - name: "ciclos"
-        in: "path"
-        description: "Número de ciclos de stress"
-        required: true
-        type: "string"                        
+        - name: "elemento"
+          in: "path"
+          description: "Elemento pra estressar. Pode ser memory ou cpu"
+          required: true
+          type: "string"
+        - name: "tempoStress"
+          in: "path"
+          description: "Tempo em segundos pra estressar o elemento"
+          required: true
+          type: "string"
+        - name: "intervalo"
+          in: "path"
+          description: "Intervalo de tempo entre um stress e outro"
+          required: true
+          type: "string"
+        - name: "ciclos"
+          in: "path"
+          description: "Número de ciclos de stress"
+          required: true
+          type: "string"
       responses:
         "200":
-          description: "OK"        
+          description: "OK"
   /api/produto/{id}:
     get:
       description: "Listagem de um produto\n"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "id"
-        in: "path"
-        description: "Id do produto"
-        required: true
-        type: "string"
+        - name: "id"
+          in: "path"
+          description: "Id do produto"
+          required: true
+          type: "string"
       responses:
         "200":
           description: "Resultado da busca"
@@ -91,28 +91,28 @@ paths:
     put:
       description: "Atualização de um produto"
       parameters:
-      - name: "id"
-        in: "path"
-        description: "Id do produto"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "body"
-        description: "Produto que será atualizado"
-        required: true
-        schema:
-          $ref: "#/definitions/Produto"
+        - name: "id"
+          in: "path"
+          description: "Id do produto"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Produto que será atualizado"
+          required: true
+          schema:
+            $ref: "#/definitions/Produto"
       responses:
         "200":
           description: "OK"
     delete:
       description: "Exclusão de um produto"
       parameters:
-      - name: "id"
-        in: "path"
-        description: "Id do produto"
-        required: true
-        type: "string"
+        - name: "id"
+          in: "path"
+          description: "Id do produto"
+          required: true
+          type: "string"
       responses:
         "204":
           description: "OK"
@@ -124,7 +124,7 @@ paths:
     get:
       description: "Listagem de todos os produtos\n"
       produces:
-      - "application/json"
+        - "application/json"
       parameters: []
       responses:
         "200":
@@ -138,12 +138,12 @@ paths:
     post:
       description: "Cadastro de um produto"
       parameters:
-      - in: "body"
-        name: "body"
-        description: "Produto que será cadastrado"
-        required: true
-        schema:
-          $ref: "#/definitions/Produto"
+        - in: "body"
+          name: "body"
+          description: "Produto que será cadastrado"
+          required: true
+          schema:
+            $ref: "#/definitions/Produto"
       responses:
         "200":
           description: "OK"
@@ -151,9 +151,9 @@ definitions:
   Produto:
     type: "object"
     required:
-    - "categoria"
-    - "nome"
-    - "preco"
+      - "categoria"
+      - "nome"
+      - "preco"
     properties:
       id:
         type: "string"
