@@ -74,14 +74,18 @@ Este pipeline requer as seguintes credenciais armazenadas no Jenkins:
 - `dockerhub`: credenciais para fazer o push da imagem Docker para o Docker Hub
 - `kubeconfig`: arquivo de configuração do Kubernetes para implantar as alterações no cluster.
 
-A API será configurada para ser acessada atarves do IP publico da VM seguido do `http://<ip>/api-docs/`
+A API será configurada para ser acessada atarves do IP publico da VM seguido do endereçamento `http://<ip>/api-docs/`
 
 ## Pré-requisitos
 
+- Ter uma VM no Azure
 - Jenkins instalado e configurado para uso com o Kubernetes.
 - Cluster Kubernetes configurado e acessível pelo Jenkins.
+- Ter instalado no Jenkins os plugins necessários para montar a pipeline e ter configurado o kubectl para o Kubernetes (Docker, Docker pipeline, Kubernetes CLI).
+- Adicionar as credenciais do Docker Hub e o arquivo kubeconfig para enviar a imagem para o Docker Hub e ter acesso ao cluster através do arquivo kubeconfig.
 
 # Como usar
 
-1.Crie um novo pipeline no Jenkins e cole o código do pipeline.
-2.Certifique-se de ter as credenciais dockerhub e kubeconfig armazenadas no Jenkins. 3. Inicie a construção do pipeline e aguarde a conclusão da compilação, push e implantação da imagem Docker no Kubernetes.
+1. Crie um novo pipeline no Jenkins e cole o código do pipeline.
+2. Certifique-se de ter as credenciais dockerhub e kubeconfig armazenadas no Jenkins.
+3. Inicie a construção do pipeline e aguarde a conclusão da compilação, push e implantação da imagem Docker no Kubernetes.
