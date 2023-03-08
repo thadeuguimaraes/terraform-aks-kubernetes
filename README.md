@@ -93,4 +93,4 @@ A API será configurada para ser acessada atarves do IP publico da VM seguido do
 
 # Recomendações
 
-Em caso de possíveis erros, é recomendado que consulte o output do build da pipeline através do `histórico de build` e acesse o `Console Output` para verificar a `saída do build` e confirmar se os `stages` foram executados com `sucesso`.
+Em caso de possíveis erros ou não, é recomendado que consulte o output do build da pipeline através do `histórico de build` e acesse o `Console Output` para verificar a `saída do build` e confirmar se os `stages` foram executados com `sucesso`.
