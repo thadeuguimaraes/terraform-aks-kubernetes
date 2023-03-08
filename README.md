@@ -21,7 +21,7 @@ O código especifica o nome e a localização do grupo de recursos, da conta de 
 
 # Introdução a pasta Script-install_apps para fazer a instalaçãoe configuração do Java Jenkins,Docker e o Kubectl
 
-Para criar a pipeline CI/CD para fazer o deploy da API no cluster Kubernetes da Azure, primeiro faça o acesso SSH na VM no Azure. Em seguida, crie uma pasta com o nome de sua preferência ou use o nome da pasta contida no repositório. Depois, crie um arquivo com a extensão .sh utilizando um editor de texto de sua preferência. Cole o código necessário, salve o arquivo e execute-o na VM Linux. Esse arquivo será responsável pela instalação e configuração dos programas necessários para criar a pipeline. Com a pipeline configurada, você poderá automatizar o processo de deploy da sua aplicação no cluster Kubernetes da Azure de forma rápida e eficiente.
+Para criar a pipeline CI/CD para fazer o deploy da API no cluster Kubernetes da Azure, primeiro faça o acesso SSH na VM no Azure. Em seguida, crie uma pasta com o nome de sua preferência ou use o nome da pasta contida no repositório. Depois, crie um arquivo com a extensão .sh utilizando um editor de texto de sua preferência. Cole o código necessário, salve e der permissão de execução para o arquivo usando o comando `chmod +x file.sh` e execute-o `./file.sh` na VM Linux. Esse arquivo será responsável pela instalação e configuração dos programas necessários para criar a pipeline. Com a pipeline configurada, você poderá automatizar o processo de deploy da sua aplicação no cluster Kubernetes da Azure de forma rápida e eficiente.
 
 Além disso, se você deseja introduzir o código para provisionar a estratégia HPA, pode fazê-lo em um novo parágrafo ou tópico. Por exemplo:
 
@@ -54,6 +54,7 @@ Os dois últimos blocos de código criam duas estratégias de escalonamento auto
 # Introdução ao codigo para provisinar á Pipeline para construção,do push e deploy de uma imagem Docker no Kubernetes
 
 Este pipeline é usado para construir uma imagem Docker, fazer o push para o Docker Hub e, em seguida, implantar a imagem no Kubernetes. É composto por três estágios: Build Image, Push Image e Deploy Kubernetes.
+configurações iniciais da Pipeline `Definition: Pipeline script from SCM, Git Repositories; Repository URL: https;//github.com/Thadeu84/api-produto.git, Branch to build: main, Script Path: jenkinsfile`
 
 ## Build Image
 
@@ -71,8 +72,8 @@ Este estágio é responsável por implantar a imagem Docker no Kubernetes. Ele f
 
 Este pipeline requer as seguintes credenciais armazenadas no Jenkins:
 
-- `dockerhub`: credenciais para fazer o push da imagem Docker para o Docker Hub
-- `kubeconfig`: arquivo de configuração do Kubernetes para implantar as alterações no cluster.
+- `dockerhub`: credencial setada como `username password` para fazer o push da imagem Docker para o Docker Hub
+- `kubeconfig`: credencial setada como `secrect file` arquivo de configuração do Kubernetes para implantar as alterações no cluster.
 
 A API será configurada para ser acessada atarves do IP publico da VM seguido do endereçamento `http://<ip>/api-docs/`
 
@@ -89,3 +90,7 @@ A API será configurada para ser acessada atarves do IP publico da VM seguido do
 1. Crie um novo pipeline no Jenkins e cole o código do pipeline.
 2. Certifique-se de ter as credenciais dockerhub e kubeconfig armazenadas no Jenkins.
 3. Inicie a construção do pipeline e aguarde a conclusão da compilação, push e implantação da imagem Docker no Kubernetes.
+
+# Recomendações
+
+Em caso de possíveis erros, é recomendado que consulte o output do build da pipeline através do `histórico de build` e acesse o `Console Output` para verificar a `saída do build` e confirmar se os `stages` foram executados com `sucesso`.
