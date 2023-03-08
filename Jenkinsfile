@@ -5,8 +5,8 @@ pipeline {
         stage ('Build Image') {
             steps {
                 script {
-                    dockerapp = docker.build("devopsguimaraes/api-produto:${env.BUILD_ID}", '-f ./src/Dockerfile ./src') 
-                }
+                    dockerapp = docker.build("deevopsguimaraes/api-produto:${env.BUILD_ID}", '-f ./src/Dockerfile ./src') 
+                }                
             }
         }
 
@@ -21,7 +21,7 @@ pipeline {
             }
         }
 
-stage ('Deploy Kubernetes') {
+        stage ('Deploy Kubernetes') {
             environment {
                 tag_version = "${env.BUILD_ID}"
             }
