@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Verifica se o script está sendo executado como superusuário
+# Verifica se o script está sendo executado como super usuário
 if [ "$(id -u)" != "0" ]; then
    echo "Este script deve ser executado como superusuário (root ou sudo)." 1>&2
    exit 1
